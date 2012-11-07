@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery.mobile-1.2.0.css"/>
+    <link rel="stylesheet" href="css/people.css"/>
+
+    <!-- The Templates -->
+    <script type="text/template" id="home">
+
+        <div data-role="header">
+            <h1>Cloud Money</h1>
+        </div>
+
+        <div data-role="content">
+            <h3>Application Template for using Backbone.js and jQuery Mobile.</h3>
+        	<ul data-role="listview" data-inset="true" data-theme="b">
+            	<li><a href="#page1">Page 1</a></li>
+            	<li><a href="#page2">Page 2</a></li>
+            	<li><a href="#page3">Page 3</a></li>
+            	<li><a href="file:///android_asset/www/people.html">People</a></li>
+            	<li><a href="file:///android_asset/www/master.html">Master</a></li>
+            	<li><a href="file:///android_asset/www/details.html">Details</a></li>
+            	<li><a href="file:///android_asset/www/index.html">Cordova</a></li>
+        	</ul>
+            <div>
+            	<div style="float:left;width:70%;">Backbone.js is used for code organization (Models, Views) and "routing".
+            			jQuery Mobile is used for its mobile styles and widgets. The routing and navigation capabilities of jQuery Mobile are
+            			disabled to let Backbone.js handle these requirements.</div>
+            	<div><img id="logo" src="css/images/Bee-Art-Final.png"/></div>
+            </div>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="page1">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Page 1</h1>
+        </div>
+
+        <div data-role="content">
+            <p>This is Page 1. It was created dynamically using an underscore.js template.</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true" data-theme="b">
+                <li><a href="#">Home</a></li>
+                <li><a href="#page2">Page 2</a></li>
+                <li><a href="#page3">Page 3</a></li>
+            </ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="page2">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Page 2</h1>
+        </div>
+
+        <div data-role="content">
+            <p>This is Page 2. It was created dynamically using an underscore.js template.</p>
+            <p>Navigate to:</p>
+            <ul data-role="listview" data-inset="true" data-theme="b">
+                <li><a href="#">Home</a></li>
+                <li><a href="#page1">Page 1</a></li>
+                <li><a href="#page3">Page 3</a></li>
+            </ul>
+        </div>
+
+    </script>
+
+    <script type="text/template" id="page3">
+
+        <div data-role="header">
+            <a href="#" data-icon="back" class="back ui-btn-left">Back</a>
+            <h1>Page 3</h1>
+        </div>
+
+        <div data-role="content">
+            <p>This is Page 3. It will be created dynamically from web service?</p>
+            <ul data-role="listview" data-inset="true" data-theme="e">
+            </ul>
+        </div>
+
+    </script>
+
+    <!-- The Scripts -->
+    <script src="js/jquery-1.8.2.js"></script>
+    <script src="js/jqm-config.js"></script>
+    <script src="js/jquery.mobile-1.2.0.js"></script>
+    <script src="js/underscore-1.4.2.js"></script>
+    <script src="js/backbone-0.9.2.js"></script>
+    <script src="js/app.js"></script>
+</head>
+
+<body></body>
+
+</html>

@@ -169,9 +169,15 @@ $('#activities').live('pageinit', function(event){
     activitiesListView = new exercise.ActivityListView({collection: exercise.activities, viewContainer: activitiesListContainer});
     activitiesListView.render();
 });
-    
+
+//reset type=date inputs to text
+/* $(document).bind( "mobileinit", function(){
+	console.log('degrading inputs...');
+	$.mobile.page.prototype.options.degradeInputs.date = true;
+});*/
+		    
 $(document).ready(function(){
-    
+	
     $('#add-button').live('click', function(){
         var activity = new exercise.Activity(),
             activityForm = $('#activity-form-form'),
@@ -183,6 +189,21 @@ $(document).ready(function(){
         activityFormView.render();
     });
 
+    $('#activity-form').live('pagebeforeshow', function(){
+    	$( "input[type='date'], input:jqmData(type='date')", this ).each(function(){
+	    	$(this).after( $( "<div />" ).datepicker({ 
+												altField: "#" + $(this).attr( "id" ), 
+												showOtherMonths: true,
+												dateFormat: 'yy-mm-dd',
+												defaultDate: $(this).attr( "value"),
+												/* minDate: "+0d", */
+												onSelect: function(val, inst) {
+												} 
+										})
+						);
+		});	
+	});
+	
     $('#activity-details').live('pagebeforeshow', function(){
         console.log('activityId: ' + $('#activity-details').jqmData('activityId'));
         var activitiesDetailsContainer = $('#activity-details').find(":jqmData(role='content')"),

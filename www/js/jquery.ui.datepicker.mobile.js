@@ -32,7 +32,8 @@
 	        $( ".ui-datepicker-calendar .ui-btn", dp ).each(function(){
 				var el = $(this);
 				// remove extra button markup - necessary for date value to be interpreted correctly
-				el.html( el.find( ".ui-btn-text" ).text() ); 
+				// el.html( el.find( ".ui-btn-text" ).text() ); 
+				el.html( el.text() ); 
 	        });
 		};
 		

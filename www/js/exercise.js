@@ -64,7 +64,15 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
         comparator: function(activity){
             var date = new Date(activity.get('date'));
             return date.getTime();
-        }
+        },
+	    handleProgress: function(evt){
+	        var percentComplete = 0;
+	        if (evt.lengthComputable) {  
+	            percentComplete = evt.loaded / evt.total;
+	        }
+	        console.log("AJAX PROGRESS : " + Math.round(percentComplete * 100)+"%");
+	        $.mobile.hidePageLoadingMsg();
+	    } 
     });
     
     ///////////////////////////////////////////////////////////////////
@@ -157,28 +165,32 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
     exercise.initData = function(){
         exercise.activities = new exercise.Activities();
         // Don't use async false to have the app wait for data before rendering the list
-        exercise.activities.fetch({async: true});  
+        // exercise.activities.fetch({async: true});
+        self = exercise.activities;
+        exercise.activities.fetch({
+        	async: true,
+            xhr: function() {
+                var xhr = $.ajaxSettings.xhr();
+                xhr.onprogress = self.handleProgress;
+                return xhr;
+            }
+        });
     };
     
 }(jQuery));
 
 $('#activities').live('pageinit', function(event){
-    var activitiesListContainer = $('#activities').find(":jqmData(role='content')"),
+	var activitiesListContainer = $('#activities').find(":jqmData(role='content')"),
         activitiesListView;
     exercise.initData();
     activitiesListView = new exercise.ActivityListView({collection: exercise.activities, viewContainer: activitiesListContainer});
     activitiesListView.render();
 });
 
-//reset type=date inputs to text
-/* $(document).bind( "mobileinit", function(){
-	console.log('degrading inputs...');
-	$.mobile.page.prototype.options.degradeInputs.date = true;
-});*/
-		    
 $(document).ready(function(){
 	
     $('#add-button').live('click', function(){
+    
         var activity = new exercise.Activity(),
             activityForm = $('#activity-form-form'),
             activityFormView;
@@ -188,7 +200,17 @@ $(document).ready(function(){
         activityFormView = new exercise.ActivityFormView({model: activity, viewContainer: activityForm});
         activityFormView.render();
     });
-
+    
+	var firstTime = true;
+    $('#activities').live('pageshow', function(){
+    	
+    	if (firstTime){
+	    	$.mobile.hidePageLoadingMsg();
+	    	$.mobile.showPageLoadingMsg("a", "First Show.");
+	    	firstTime = false;
+	    }
+	});
+	
     $('#activity-form').live('pagebeforeshow', function(){
     	$( "input[type='date'], input:jqmData(type='date')", this ).each(function(){
 	    	$(this).after( $( "<div />" ).datepicker({ 
@@ -196,7 +218,7 @@ $(document).ready(function(){
 												showOtherMonths: true,
 												dateFormat: 'yy-mm-dd',
 												defaultDate: $(this).attr( "value"),
-												/* minDate: "+0d", */
+												minDate: "+0d",
 												onSelect: function(val, inst) {
 												} 
 										})
@@ -211,7 +233,6 @@ $(document).ready(function(){
             activityId = $('#activity-details').jqmData('activityId'),
             activityModel = exercise.activities.get(activityId);
             activityModel.fetch({async: false});
-    		console.log(activityModel.get('duration'));
     		
         activityDetailsView = new exercise.ActivityDetailsView({model: activityModel, viewContainer: activitiesDetailsContainer});
         activityDetailsView.render();

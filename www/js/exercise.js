@@ -66,11 +66,6 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
             return date.getTime();
         },
 	    handleProgress: function(evt){
-	        var percentComplete = 0;
-	        if (evt.lengthComputable) {  
-	            percentComplete = evt.loaded / evt.total;
-	        }
-	        console.log("AJAX PROGRESS : " + Math.round(percentComplete * 100)+"%");
 	        $.mobile.hidePageLoadingMsg();
 	    } 
     });
@@ -87,6 +82,7 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
             this.collection.bind('add', this.render, this);
             this.collection.bind('change', this.changeItem, this);
             this.collection.bind('reset', this.render, this);
+            this.collection.bind('destroy', this.render, this);
             this.template = _.template($('#activity-list-item-template').html());
         },
         
@@ -187,6 +183,12 @@ $('#activities').live('pageinit', function(event){
     activitiesListView.render();
 });
 
+$('#welcome').live('pageshow', function(event){
+	console.log("jQM : Welcome pageshow event...");
+});
+
+function alertDismissed(){}
+
 $(document).ready(function(){
 	
     $('#add-button').live('click', function(){
@@ -203,10 +205,16 @@ $(document).ready(function(){
     
 	var firstTime = true;
     $('#activities').live('pageshow', function(){
-    	
+
+		/* navigator.notification.alert(
+		            'You are the winner!',  // message
+		            alertDismissed,         // callback
+		            'Game Over',            // title
+		            'Done'                  // buttonName
+		        );    	*/
     	if (firstTime){
 	    	$.mobile.hidePageLoadingMsg();
-	    	$.mobile.showPageLoadingMsg("a", "First Show.");
+	    	$.mobile.showPageLoadingMsg("a", "Loading...");
 	    	firstTime = false;
 	    }
 	});
@@ -238,6 +246,27 @@ $(document).ready(function(){
         activityDetailsView.render();
     });
 
+	function onConfirm(button) {
+	    alert('You selected button ' + button);
+	}
+            /* navigator.notification.confirm(
+		        "Delete : '" + activityModel.get('comments') + "'?",   // message
+		        onConfirm,               // callback to invoke with index of button pressed
+		        'Select Confirm to delete',       // title
+		        'Confirm,Cancel'          // buttonLabels
+		    ); */
+
+    $('#del-activity-button').live('click', function() {
+        var activityId = $('#activity-details').jqmData('activityId'),
+            activityModel = exercise.activities.get(activityId);
+            
+            if (confirm("Delete '" + activityModel.get('comments') + "' ?")){
+            	activityModel.destroy();
+            } else {
+            	alert("Cancelled...");
+            }
+    });
+    
     $('#edit-activity-button').live('click', function() {
         var activityId = $('#activity-details').jqmData('activityId'),
             activityModel = exercise.activities.get(activityId),

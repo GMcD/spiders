@@ -13,6 +13,7 @@
 		$(document).bind( "mobileinit", function(){
 			// console.log('these seem not to stick invesatigate...');
 			console.log("Starting jQM...");
+			console.log("jQM : mobileinit event!");
 
 			// reset type=date inputs to text
 			// $.mobile.page.prototype.options.degradeInputs.date = true;
@@ -46,6 +47,7 @@
           <li>Distance: <%= distance %></li>
           <li>Comments: <%= comments %></li>
         </ul>
+        <a href="#activities" id="del-activity-button" data-role="button" data-mini="true" data-theme="b" data-icon="delete">Delete</a>
     </script>
 
     <script type="text/template" id="activity-form-template">
@@ -87,7 +89,7 @@
       </div>
     </div>
 
-    <div data-role="page" id="activities">
+    <div data-role="page" id="activities" data-add-back-btn="true">
       <div data-role="header">
         <h1>Activities</h1>
         <a href="#activity-form" data-role="button" data-icon="add" id="add-button" class="ui-btn-right">Add</a>

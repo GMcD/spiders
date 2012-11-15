@@ -2,6 +2,7 @@
 /*global _, jQuery, $, console, Backbone */
 
 var exercise = {};
+
 /* This returns a Date object, if from ServiceStack, otherwise the input */
 function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(parseFloat(/Date\(([^)]+)\)/.exec(s)[1])) : s ; }
 
@@ -175,26 +176,21 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
     
 }(jQuery));
 
-$('#activities').live('pageinit', function(event){
-	var activitiesListContainer = $('#activities').find(":jqmData(role='content')"),
-        activitiesListView;
-    exercise.initData();
-    activitiesListView = new exercise.ActivityListView({collection: exercise.activities, viewContainer: activitiesListContainer});
-    activitiesListView.render();
-});
-
-$('#welcome').live('pageshow', function(event){
-	console.log("jQM : Welcome pageshow event...");
-});
-
-function alertDismissed(){}
-
-$(document).ready(function(){
+	$('#activities').live('pageinit', function(event){
+		var activitiesListContainer = $('#activities').find(":jqmData(role='content')"),
+	        activitiesListView;
+	    exercise.initData();
+	    activitiesListView = new exercise.ActivityListView({collection: exercise.activities, viewContainer: activitiesListContainer});
+	    activitiesListView.render();
+	});
+	
+	$('#welcome').live('pageshow', function(event){
+		console.log("jQM : Welcome pageshow event...");
+	});
 	
     $('#add-button').live('click', function(){
-    
         var activity = new exercise.Activity(),
-            activityForm = $('#activity-form-form'),
+	        activityForm = $('#activity-form-form'),
             activityFormView;
     
         //clear any existing id attribute from the form page
@@ -206,12 +202,6 @@ $(document).ready(function(){
 	var firstTime = true;
     $('#activities').live('pageshow', function(){
 
-		/* navigator.notification.alert(
-		            'You are the winner!',  // message
-		            alertDismissed,         // callback
-		            'Game Over',            // title
-		            'Done'                  // buttonName
-		        );    	*/
     	if (firstTime){
 	    	$.mobile.hidePageLoadingMsg();
 	    	$.mobile.showPageLoadingMsg("a", "Loading...");
@@ -235,36 +225,26 @@ $(document).ready(function(){
 	});
 	
     $('#activity-details').live('pagebeforeshow', function(){
-        console.log('activityId: ' + $('#activity-details').jqmData('activityId'));
-        var activitiesDetailsContainer = $('#activity-details').find(":jqmData(role='content')"),
-            activityDetailsView,
-            activityId = $('#activity-details').jqmData('activityId'),
-            activityModel = exercise.activities.get(activityId);
-            activityModel.fetch({async: false});
+        var activitiesDetailsContainer = $('#activity-details').find(":jqmData(role='content')");
+		var activityId = $('#activity-details').jqmData('activityId');
+
+        console.log('activityId: ' + activityId);
+        if (activityId){
+	        activityModel = exercise.activities.get(activityId);
+	        activityModel.fetch({async: false});
+	    } else {
+	        console.log('Error getting activityId : ' + activityId);
+		}    	
     		
-        activityDetailsView = new exercise.ActivityDetailsView({model: activityModel, viewContainer: activitiesDetailsContainer});
+        var activityDetailsView = new exercise.ActivityDetailsView({model: activityModel, viewContainer: activitiesDetailsContainer});
         activityDetailsView.render();
     });
-
-	function onConfirm(button) {
-	    alert('You selected button ' + button);
-	}
-            /* navigator.notification.confirm(
-		        "Delete : '" + activityModel.get('comments') + "'?",   // message
-		        onConfirm,               // callback to invoke with index of button pressed
-		        'Select Confirm to delete',       // title
-		        'Confirm,Cancel'          // buttonLabels
-		    ); */
-
+	
     $('#del-activity-button').live('click', function() {
-        var activityId = $('#activity-details').jqmData('activityId'),
-            activityModel = exercise.activities.get(activityId);
-            
-            if (confirm("Delete '" + activityModel.get('comments') + "' ?")){
-            	activityModel.destroy();
-            } else {
-            	alert("Cancelled...");
-            }
+        var activityId = $('#activity-details').jqmData('activityId');
+        var activityModel = exercise.activities.get(activityId); 
+        var msg = "Delete '" + activityModel.get('comments') + "' ?";
+        navigator.notification.confirm('', function(button){ if (button == 1) activityModel.destroy(); }, msg, 'Confirm,Cancel' );
     });
     
     $('#edit-activity-button').live('click', function() {
@@ -327,4 +307,3 @@ $(document).ready(function(){
                 });
         }
     });
-});

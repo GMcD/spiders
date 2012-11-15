@@ -201,13 +201,18 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
     
 	var firstTime = true;
     $('#activities').live('pageshow', function(){
-
     	if (firstTime){
 	    	$.mobile.hidePageLoadingMsg();
 	    	$.mobile.showPageLoadingMsg("a", "Loading...");
 	    	firstTime = false;
 	    }
 	});
+
+    $('#refresh-button').live('click', function() {
+		// firstTime = true;
+        //$.mobile.changePage( $('#welcome'), { transition : 'pop', reloadPage : true } );
+        navigator.notification.alert('Refreshing Soon!');
+    });
 	
     $('#activity-form').live('pagebeforeshow', function(){
     	$( "input[type='date'], input:jqmData(type='date')", this ).each(function(){

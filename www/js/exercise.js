@@ -1,5 +1,3 @@
-/*jslint browser: true */
-/*global _, jQuery, $, console, Backbone */
 
 var exercise = {};
 

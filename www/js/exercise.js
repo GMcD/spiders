@@ -1,5 +1,4 @@
-/*jslint browser: true */
-/*global _, jQuery, $, console, Backbone */
+/* Copyright Project Scapa Limited 2012 */
 
 var exercise = {};
 

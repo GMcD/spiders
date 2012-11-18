@@ -1,4 +1,5 @@
 /* Copyright Project Scapa Limited 2012 */
+/* Add support for device.name in Apache? */
 
 var exercise = {};
 

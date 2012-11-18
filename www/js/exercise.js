@@ -197,6 +197,13 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
         activityFormView.render();
     });
     
+$('#info-button').live('click', function() {
+                       alert("Hi!");
+                       var m = device.name + ' ' + device.platform;
+                       alert(m);
+                       // navigator.notification.alert(m);
+                       });
+
 	var firstTime = true;
     $('#activities').live('pageshow', function(){
     	if (firstTime){
@@ -206,12 +213,12 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
 	    }
 	});
 
-    $('#refresh-button').live('click', function() {
-		// firstTime = true;
-        //$.mobile.changePage( $('#welcome'), { transition : 'pop', reloadPage : true } );
-        navigator.notification.alert('Refreshing Soon!');
-    });
-	
+$('#refresh-button').live('click', function() {
+                          // firstTime = true;
+                          //$.mobile.changePage( $('#welcome'), { transition : 'pop', reloadPage : true } );
+                          navigator.notification.alert('Refreshing Soon!');
+                          });
+
     $('#activity-form').live('pagebeforeshow', function(){
     	$( "input[type='date'], input:jqmData(type='date')", this ).each(function(){
 	    	$(this).after( $( "<div />" ).datepicker({ 

@@ -200,10 +200,8 @@ function contractDate(s) { return s && s.substring(0, 5) == "/Date" ? new Date(p
     });
     
 $('#info-button').live('click', function() {
-                       alert("Hi!");
                        var m = device.name + ' ' + device.platform;
-                       alert(m);
-                       // navigator.notification.alert(m);
+                       navigator.notification.alert(m);
                        });
 
 	var firstTime = true;
